@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Content Management Tool</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <style>
+      /* Global Styles */
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: "Times New Roman", Times, serif;
+        background-image: url(two.jpg);
+        background-size: cover;
+        background-position: 0%;
+        color: #ffffff;
+      }
+      h1 {
+        text-align: center;
+        color: #030303;
+      }
+      h3 {
+        text-align: center;
+        color: #ffffff;
+      }
+
+      /* Content Container */
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      /* Content Item */
+      .content-item {
+        border: 1px solid #cccccc;
+        padding: 20px;
+        color: #ffffff;
+        background-color: #333333;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Input Field Styles */
+      .input-field {
+        margin-bottom: 10px;
+      }
+      .input-field label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .input-field input[type="text"],
+      .input-field input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ff6600;
+        border-radius: 5px;
+      }
+      .input-field input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #ff6600;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      .input-field input[type="submit"]:hover {
+        background-color: #ffffff;
+        color: #ff6600;
+      }
+
+      /* Adjust Image and Video Size */
+      .image-content img,
+      .video-content video {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        background-color: transparent;
+      }
+
+      /* Side by Side Layout */
+      .side-by-side {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: space-between;
+      }
+
+      .side-by-side .content-item {
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Content Management Tool</h1>
+
+    <div class="container side-by-side">
+      <div class="content-item">
+        <h3>Add Text Content</h3>
+        <form id="textForm">
+          <div class="input-field">
+            <label for="textInput">Text:</label>
+            <input type="text" id="textInput" required autocomplete="off" />
+          </div>
+          <div class="input-field">
+            <input type="submit" value="Add Text" />
+            <input type="reset" value="Reset" />
+          </div>
+        </form>
+      </div>
+
+      <div class="content-item">
+        <h3>Upload Image</h3>
+        <form id="imageForm">
+          <div class="input-field">
+            <label for="imageInput">Image:</label>
+            <input type="file" id="imageInput" accept="image/*" required />
+          </div>
+          <div class="input-field">
+            <input type="submit" value="Upload Image" />
+          </div>
+        </form>
+      </div>
+
+      <div class="content-item">
+        <h3>Upload Video</h3>
+        <form id="videoForm">
+          <div class="input-field">
+            <label for="videoInput">Video:</label>
+            <input type="file" id="videoInput" accept="video/*" required />
+          </div>
+          <div class="input-field">
+            <input type="submit" value="Upload Video" />
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div
+      class="container d-flex flex-column justify-content-center"
+      id="contentContainer"
+    ></div>
+
+    <script>
+      // JavaScript code
+      const textForm = document.getElementById("textForm");
+      const imageForm = document.getElementById("imageForm");
+      const videoForm = document.getElementById("videoForm");
+      const contentContainer = document.getElementById("contentContainer");
+
+      textForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const textInput = document.getElementById("textInput");
+        const text = textInput.value.trim();
+
+        if (text !== "") {
+          const contentItem = document.createElement("div");
+          contentItem.classList.add("content-item", "text-content");
+          contentItem.textContent = text;
+          contentContainer.appendChild(contentItem);
+          textInput.value = "";
+        }
+      });
+
+      imageForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const imageInput = document.getElementById("imageInput");
+        const file = imageInput.files[0];
+
+        if (file) {
+          const contentItem = document.createElement("div");
+          contentItem.classList.add("content-item", "image-content");
+          const image = document.createElement("img");
+          image.src = URL.createObjectURL(file);
+          image.style.width = "40%";
+          contentItem.appendChild(image);
+          contentContainer.appendChild(contentItem);
+          imageInput.value = "";
+        }
+      });
+
+      videoForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const videoInput = document.getElementById("videoInput");
+        const file = videoInput.files[0];
+
+        if (file) {
+          const contentItem = document.createElement("div");
+          contentItem.classList.add("content-item", "video-content");
+          const video = document.createElement("video");
+          video.src = URL.createObjectURL(file);
+          video.controls = true;
+          contentItem.appendChild(video);
+          contentContainer.appendChild(contentItem);
+          videoInput.value = "";
+        }
+      });
+    </script>
+  </body>
+</html>
